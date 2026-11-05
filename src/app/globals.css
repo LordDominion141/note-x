@@ -1,0 +1,165 @@
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
+
+
+
+@layer components {
+  .cta-button {
+    @apply inline-flex items-center justify-center border-0 bg-[#b51026] px-7 py-3 text-[15px] font-bold text-white transition-colors hover:bg-[#840f1e];
+  }
+  .auth-button {
+        @apply px-4 max-md:px-2 py-2 bg-[#b51026] text-white font-bold text-[15px] border-0 mx-2;
+    }
+
+@theme {
+  --color-tab-bg: #faf9f6f8;
+}
+
+    .search-clear::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'><path d='M18 6 6 18M6 6l12 12'/></svg>") center / contain no-repeat;
+  }
+}
+
+
+
+main {
+    @apply mx-auto container h-screen flex flex-col;
+  }
+
+
+header {
+    @apply sticky top-0 z-50 w-full bg-white border border-gray-200 py-2 px-3;
+
+    nav {
+      @apply flex items-center justify-between max-w-full sm:px-5 px-2 mx-5;
+    }
+
+    .logo {
+      @apply flex flex-row gap-10 max-md:gap-4 items-center justify-center no-underline;
+
+      p {
+         @apply text-[28px] max-lg:text-lg font-medium text-black;
+      }
+    }
+
+    .menu-bar {
+      @apply flex flex-col absolute top-20 text-center items-center gap-12 py-5 lg:relative lg:top-0 lg:justify-between lg:flex lg:flex-row left-0 right-0 shadow-lg lg:shadow-none max-lg:bg-white;
+
+      a {
+        @apply text-lg font-medium no-underline text-neutral-800 hover:text-blue-600 transition-colors;
+        }
+    }
+    .menu-bar.myclass {
+      @apply max-lg:hidden;
+    }
+
+    .menu {
+      @apply hidden max-lg:block
+    }
+  }
+
+
+  .banner-section {
+    @apply relative flex flex-col items-center w-full my-5 h-[130vh] left-0 right-0 mb-20;
+
+    .banner {
+      @apply pt-20 w-full text-center mx-auto;
+
+      h1 {
+      @apply text-[90px] max-lg:text-[60px] m-0 p-0;
+    }
+    p{
+      @apply text-[21px] mx-5 max-lg:my-12 my-8;
+    }
+    button {
+      @apply px-7.5 p-3.75 text-[15px] font-bold text-white bg-[#b51026] border-0 my-7;
+    }
+    }
+
+    .image-section {
+      @apply pt-25 h-auto w-auto max-lg:w-full text-center flex flex-row justify-center items-end gap-8 max-lg:flex-col max-lg:items-center py-5;
+
+      .img {
+        @apply p-4;
+      }
+    }
+
+    .idea-part {
+      @apply w-full left-0 right-0 max-lg:my-20 my-50;
+
+      .idea-div {
+        @apply mx-auto w-4xl max-lg:w-auto h-auto max-lg:h-9 border border-purple-400 py-12 px-17 rounded-lg bg-purple-300;
+
+        .inner {
+          @apply flex flex-row justify-between items-center gap-20 h-10;
+          h2 {
+            @apply text-[30px] max-lg:text-[20px] w-116 max-lg:w-60;
+          }
+          .link {
+            @apply py-3.25 px-3.75 max-lg:py-1 max-lg:px-2.5 border rounded-sm bg-black text-center max-lg:h-7;
+            a {
+              @apply no-underline font-bold text-white text-[15px] max-lg:text-[12px] m-auto;
+            }
+          }
+        }
+      }
+    }
+
+    
+  }
+
+  
+
+  .signup-container {
+    @apply flex items-center justify-center w-full h-auto bg-cover bg-center;
+     
+    .signup-card {
+      @apply flex flex-row border border-gray-200 shadow-gray-500 shadow-lg rounded-md w-full max-w-300 max-sm:w-full max-sm:min-h-150 overflow-hidden max-sm:flex-col mx-10 my-10 bg-white;
+
+      .form-wrap {
+        @apply flex justify-center items-center flex-1;
+      }
+
+      .signup-form {
+        @apply flex flex-col px-10 gap-7 justify-center max-sm:gap-5 py-16 w-87.5;
+        
+        h2 {
+          @apply text-[28px] text-gray-800 mb-0;
+        }
+        input {
+          @apply p-2 rounded-md shadow-none border border-gray-300 outline-none hover:border-[#b51026] transition-colors;
+        }
+        label {
+          @apply text-[16px] text-gray-900;
+        }
+        button {
+          @apply py-2 px-2 bg-[#b51026] text-white text-[15px] shadow-none border border-red-400 rounded-md hover:bg-[#840f1e] transition-colors mt-5;
+        }
+        p{
+          @apply my-0 mb-3 tracking-widest text-gray-700 text-[17px];
+        }
+        a {
+          @apply no-underline text-[#b51026];
+        }
+        .signin-paragraph {
+          @apply text-[15px] text-center;
+        }
+
+      }
+      .signup-visual {
+        @apply flex flex-1 max-sm:flex-none min-w-0 max-sm:h-70;
+        .signup-image {
+          @apply w-full h-full object-cover block;
+        }
+      }
+    }
+  }
+
+  /*
+  color: #b51026
+  */
