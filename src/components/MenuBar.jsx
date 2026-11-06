@@ -60,6 +60,11 @@ const MenuBar = ({
     const [dropDown, setDropDown] = useState(null);
     const [newCollection, setNewCollection] = useState(false);
     const [hidden, setHidden] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [activeSearchIndex, setActiveSearchIndex] = useState(0);
+    const searchContainerRef = useRef(null);
+    const searchInputRef = useRef(null);
 
     useEffect(() => {
         if (rename !== null) RenameInputRef.current?.focus();
@@ -100,6 +105,36 @@ const MenuBar = ({
 
     ]
 
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    const matchingNotes = normalizedQuery
+        ? notes.filter((note) =>
+            note.title?.toLowerCase().includes(normalizedQuery) ||
+            note.body?.toLowerCase().includes(normalizedQuery)
+        )
+        : [];
+    const matchingCollections = normalizedQuery
+        ? collections.filter((collection) =>
+            collection.title?.toLowerCase().includes(normalizedQuery) ||
+            collection.description?.toLowerCase().includes(normalizedQuery)
+        )
+        : [];
+    const searchResults = [
+        ...matchingNotes.map((note) => ({ type: 'note', item: note })),
+        ...matchingCollections.map((collection) => ({ type: 'collection', item: collection })),
+    ];
+
+    function selectSearchResult(result) {
+        setSearchOpen(false);
+        setSearchQuery('');
+        setActiveSearchIndex(0);
+        if (result.type === 'note') {
+            openTabHandler(result.item._id);
+        } else {
+            openCollection(result.item._id);
+        }
+        onCloseMobile?.();
+    }
+
     const dropdownRef = useRef(null);
     const pickerRef = useRef(null);
 
@@ -107,9 +142,11 @@ const MenuBar = ({
         const handlePointerDownOutside = (event) => {
             const insideDropdown = dropdownRef.current?.contains(event.target);
             const insidePicker = pickerRef.current?.contains(event.target);
+            const insideSearch = searchContainerRef.current?.contains(event.target);
             if (!insideDropdown && !insidePicker) {
                 setDropDown(null);
             }
+            if (!insideSearch) setSearchOpen(false);
             if (RenameInputRef.current && !RenameInputRef.current.contains(event.target)) {
                 setRename(null);
             }
@@ -155,8 +192,113 @@ const MenuBar = ({
                                         <X className="h-5 w-5" />
                                     </button>
                 </div>
-                <div className={`flex items-center w-full rounded-xl bg-white/12 ring-1 ring-white/15 transition focus-within:ring-white/40 mt-10 py-3 ${!open? 'px-3': 'px-4'} max-md:mt-8`}> <Search onClick={() => setOpen(true)} className="m-0 ml-4" />
-                    <input type="search" className={`search-clear placeholder:text-white text-base text-white w-full bg-transparent border-0 focus:outline-none ${!open && 'hidden max-sm:block'} ml-3`} placeholder="Search"/>
+                <div ref={searchContainerRef} className="relative z-30 mt-10 w-full max-md:mt-8">
+                    <div className={`flex items-center rounded-xl bg-white/12 py-3 ring-1 ring-white/15 transition focus-within:ring-white/40 ${!open ? 'px-3' : 'px-4'}`}>
+                        <Search className="m-0 ml-1 h-5 w-5 shrink-0 cursor-pointer" onClick={() => {
+                            setOpen(true);
+                            setSearchOpen(true);
+                            searchInputRef.current?.focus();
+                        }} />
+                        <input
+                            ref={searchInputRef}
+                            type="search"
+                            role="combobox"
+                            aria-label="Search notes and collections"
+                            aria-autocomplete="list"
+                            aria-expanded={searchOpen}
+                            aria-controls="sidebar-search-results"
+                            aria-activedescendant={searchResults[activeSearchIndex] ? `search-result-${searchResults[activeSearchIndex].type}-${searchResults[activeSearchIndex].item._id}` : undefined}
+                            value={searchQuery}
+                            onFocus={() => setSearchOpen(true)}
+                            onChange={(event) => {
+                                setSearchQuery(event.target.value);
+                                setActiveSearchIndex(0);
+                                setSearchOpen(true);
+                            }}
+                            onKeyDown={(event) => {
+                                if (event.key === 'ArrowDown' && searchResults.length) {
+                                    event.preventDefault();
+                                    setActiveSearchIndex((index) => (index + 1) % searchResults.length);
+                                } else if (event.key === 'ArrowUp' && searchResults.length) {
+                                    event.preventDefault();
+                                    setActiveSearchIndex((index) => (index - 1 + searchResults.length) % searchResults.length);
+                                } else if (event.key === 'Enter' && searchResults[activeSearchIndex]) {
+                                    event.preventDefault();
+                                    selectSearchResult(searchResults[activeSearchIndex]);
+                                } else if (event.key === 'Escape') {
+                                    setSearchOpen(false);
+                                }
+                            }}
+                            className={`search-clear ml-3 w-full min-w-0 border-0 bg-transparent text-base text-white placeholder:text-white focus:outline-none ${!open && 'hidden max-sm:block'}`}
+                            placeholder="Search"
+                        />
+                    </div>
+                    {searchOpen && (
+                        <div id="sidebar-search-results" role="listbox" className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[min(60dvh,420px)] overflow-y-auto rounded-lg border border-[#eadbdd] bg-white p-2 text-gray-800 shadow-xl">
+                            {!normalizedQuery ? (
+                                <p className="m-0 px-3 py-3 text-sm text-gray-500">Search note titles, note text, or collections.</p>
+                            ) : searchResults.length === 0 ? (
+                                <p className="m-0 px-3 py-3 text-sm text-gray-500">No results for “{searchQuery.trim()}”.</p>
+                            ) : (
+                                <>
+                                    {matchingNotes.length > 0 && (
+                                        <div className="pb-1">
+                                            <p className="m-0 px-3 py-2 text-xs font-semibold uppercase text-[#b51026]">Notes</p>
+                                            {matchingNotes.map((note) => {
+                                                const resultIndex = searchResults.findIndex((result) => result.type === 'note' && result.item._id === note._id);
+                                                return (
+                                                    <button
+                                                        type="button"
+                                                        role="option"
+                                                        aria-selected={activeSearchIndex === resultIndex}
+                                                        id={`search-result-note-${note._id}`}
+                                                        key={note._id}
+                                                        className={`flex min-h-11 w-full items-center gap-3 rounded-md border-0 px-3 text-left text-sm ${activeSearchIndex === resultIndex ? 'bg-[#f9e8ea] text-[#8f1021]' : 'bg-transparent text-gray-800 hover:bg-[#f9e8ea]'}`}
+                                                        onMouseEnter={() => setActiveSearchIndex(resultIndex)}
+                                                        onClick={() => selectSearchResult({ type: 'note', item: note })}
+                                                    >
+                                                        <Library className="h-4 w-4 shrink-0 text-[#b51026]" />
+                                                        <span className="min-w-0">
+                                                            <span className="block truncate">{note.title}</span>
+                                                            {note.body?.toLowerCase().includes(normalizedQuery) && !note.title?.toLowerCase().includes(normalizedQuery) && (
+                                                                <span className="block truncate text-xs text-gray-500">{note.body}</span>
+                                                            )}
+                                                        </span>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                    {matchingCollections.length > 0 && (
+                                        <div className="border-t border-[#f0e5e6] pt-1">
+                                            <p className="m-0 px-3 py-2 text-xs font-semibold uppercase text-[#b51026]">Collections</p>
+                                            {matchingCollections.map((collection) => {
+                                                const resultIndex = searchResults.findIndex((result) => result.type === 'collection' && result.item._id === collection._id);
+                                                return (
+                                                    <button
+                                                        type="button"
+                                                        role="option"
+                                                        aria-selected={activeSearchIndex === resultIndex}
+                                                        id={`search-result-collection-${collection._id}`}
+                                                        key={collection._id}
+                                                        className={`flex min-h-11 w-full items-center gap-3 rounded-md border-0 px-3 text-left text-sm ${activeSearchIndex === resultIndex ? 'bg-[#f9e8ea] text-[#8f1021]' : 'bg-transparent text-gray-800 hover:bg-[#f9e8ea]'}`}
+                                                        onMouseEnter={() => setActiveSearchIndex(resultIndex)}
+                                                        onClick={() => selectSearchResult({ type: 'collection', item: collection })}
+                                                    >
+                                                        <StickyNote className="h-4 w-4 shrink-0 text-[#b51026]" />
+                                                        <span className="min-w-0">
+                                                            <span className="block truncate">{collection.title}</span>
+                                                            {collection.description && <span className="block truncate text-xs text-gray-500">{collection.description}</span>}
+                                                        </span>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    )}
                 </div>
                 <ul className="pt-2 relative -left-8 max-md:left-0 max-md:m-0 max-md:list-none max-md:p-0">
                     {Menus.map((item) => {

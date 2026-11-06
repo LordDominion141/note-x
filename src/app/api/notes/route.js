@@ -10,7 +10,7 @@ export async function GET(request) {
         const { user, response } = await protectRoute(request);
         if (response) return response;
 
-        const notes = await Note.find({ userId: user._id }).select('title').sort({createdAt: -1}).lean();
+        const notes = await Note.find({ userId: user._id }).select('title body').sort({createdAt: -1}).lean();
         return Response.json({
             notes,
         }, {status: 200});
