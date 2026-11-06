@@ -5,6 +5,7 @@ import MenuBar from "@/components/MenuBar";
 import TabBar from "@/components/TabBar";
 import CollectionBox from "@/components/CollectionBox";
 import ProfileBox from "@/components/ProfileBox";
+import SettingsBox, { DEFAULT_EDITOR_SETTINGS } from "@/components/SettingsBox";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { BookOpen, Menu, Plus } from "lucide-react";
@@ -34,6 +35,52 @@ const Dashboard = () => {
         const [collections, setCollections] = useState([]);
         const [selectedCollection, setSelectedCollection] = useState(null);
         const [selectedProfile, setSelectedProfile] = useState(null);
+
+        // EDITOR SETTINGS (font, size, spacing, colors)
+        const SETTINGS_KEY = 'notex-editor-settings';
+        const [editorSettings, setEditorSettings] = useState(DEFAULT_EDITOR_SETTINGS);
+        const [showSettings, setShowSettings] = useState(false);
+
+        // Load saved settings once after mount (not in useState, to avoid a hydration mismatch).
+        useEffect(() => {
+            const timeoutId = window.setTimeout(() => {
+                try {
+                    const saved = localStorage.getItem(SETTINGS_KEY);
+                    if (saved) {
+                        setEditorSettings({ ...DEFAULT_EDITOR_SETTINGS, ...JSON.parse(saved) });
+                    }
+                } catch (error) {
+                    console.error('Could not load editor settings', error);
+                }
+            }, 0);
+
+            return () => window.clearTimeout(timeoutId);
+        }, []);
+
+        function saveSettings(next) {
+            try {
+                localStorage.setItem(SETTINGS_KEY, JSON.stringify(next));
+            } catch (error) {
+                console.error('Could not save editor settings', error);
+            }
+        }
+
+        function updateSetting(key, value) {
+            const next = { ...editorSettings, [key]: value };
+            setEditorSettings(next);
+            saveSettings(next);
+        }
+
+        function resetSettings() {
+            setEditorSettings(DEFAULT_EDITOR_SETTINGS);
+            saveSettings(DEFAULT_EDITOR_SETTINGS);
+        }
+
+        function openSettings() {
+            setSelectedCollection(null);
+            setSelectedProfile(null);
+            setShowSettings(true);
+        }
     
         async function loadNotes () {
                 try {
@@ -78,6 +125,7 @@ const Dashboard = () => {
 
         async function openCollection(collectionId) {
             setSelectedProfile(null);
+            setShowSettings(false);
             try {
                 const res = await fetch(`/api/notes/collection/${collectionId}`);
                 const data = await res.json();
@@ -93,6 +141,7 @@ const Dashboard = () => {
 
         async function openProfile() {
             setSelectedCollection(null);
+            setShowSettings(false);
             setSelectedProfile({ loading: true });
             try {
                 const res = await fetch('/api/profile');
@@ -570,6 +619,7 @@ const Dashboard = () => {
         addCollection={addCollection}
         openCollection={openCollection}
         openProfile={openProfile}
+        openSettings={openSettings}
         mobileOpen={mobileMenuOpen}
         onCloseMobile={() => setMobileMenuOpen(false)} />
 
@@ -628,8 +678,18 @@ const Dashboard = () => {
                         updateField={updateField}
                         saveNote={saveNote}
                         updateNote={updateNote}
+                        settings={editorSettings}
                     />
                 </>
+            )}
+
+            {showSettings && (
+                <SettingsBox
+                    settings={editorSettings}
+                    onChange={updateSetting}
+                    onReset={resetSettings}
+                    onClose={() => setShowSettings(false)}
+                />
             )}
         
         </div>

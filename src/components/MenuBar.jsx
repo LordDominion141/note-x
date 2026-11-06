@@ -45,6 +45,7 @@ const MenuBar = ({
     addCollection,
     openCollection,
     openProfile,
+    openSettings,
     mobileOpen,
     onCloseMobile }) => {
 
@@ -130,7 +131,7 @@ const MenuBar = ({
 
     return ( 
 
-        <div className={`relative min-h-screen shrink-0 bg-[#b51026] p-5 pt-8 text-white duration-300 ${open ? 'w-72' : 'w-20'} max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:flex max-md:h-dvh max-md:min-h-0 max-md:w-72 max-md:max-w-[85vw] max-md:flex-col max-md:overflow-y-auto max-md:pt-4 max-md:transition-transform ${mobileOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'}`}>
+        <div className={`relative min-h-screen shrink-0 bg-linear-to-b from-[#c4132b] via-[#b51026] to-[#7d0d1c] shadow-[8px_0_30px_-12px_rgba(78,6,17,0.6)] p-5 pt-8 text-white duration-300 ${open ? 'w-72' : 'w-20'} max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:flex max-md:h-dvh max-md:min-h-0 max-md:w-72 max-md:max-w-[85vw] max-md:flex-col max-md:overflow-y-auto max-md:pt-4 max-md:transition-transform ${mobileOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'}`}>
 
             <ArrowLeft className={`text-[#b51026] max-md:hidden p-2 bg-white text-lg rounded-full absolute -right-3 z-50 top-9 border border-[#b51026] cursor-pointer ${!open &&'rotate-180'} duration-200`} onClick={() => {
                 if (open) {
@@ -142,7 +143,7 @@ const MenuBar = ({
             <div className="h-full overflow-y-auto overflow-x-clip scrollbar-none max-sm:pr-10 max-md:min-h-0 max-md:flex-1 max-md:pr-0">
                 <div className={`flex items-center p-0 gap-20 whitespace-nowrap m-0 w-full ${open ? '' : 'justify-center'}`}>
                   <div className="flex items-center ">
-                      <BookOpen className={`my-1 ${open ? 'mx-2' : ''}`} />
+                      <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/20 ${open ? 'mx-2' : ''}`}><BookOpen className="h-5 w-5" /></span>
                       <h1 className={`text-white  origin-left text-2xl my-0 font-medium ${!hidden ? 'ml-2' : 'hidden max-sm:block'}`}>Note-X</h1>
                   </div>
                                     <button
@@ -154,7 +155,7 @@ const MenuBar = ({
                                         <X className="h-5 w-5" />
                                     </button>
                 </div>
-                <div className={`flex items-center w-full rounded-md bg-[#b13f4e] mt-10 py-3 ${!open? 'px-3': 'px-4'} max-md:mt-8`}> <Search onClick={() => setOpen(true)} className="m-0 ml-4" />
+                <div className={`flex items-center w-full rounded-xl bg-white/12 ring-1 ring-white/15 transition focus-within:ring-white/40 mt-10 py-3 ${!open? 'px-3': 'px-4'} max-md:mt-8`}> <Search onClick={() => setOpen(true)} className="m-0 ml-4" />
                     <input type="search" className={`search-clear placeholder:text-white text-base text-white w-full bg-transparent border-0 focus:outline-none ${!open && 'hidden max-sm:block'} ml-3`} placeholder="Search"/>
                 </div>
                 <ul className="pt-2 relative -left-8 max-md:left-0 max-md:m-0 max-md:list-none max-md:p-0">
@@ -162,7 +163,7 @@ const MenuBar = ({
                         const Icon = item.icon;
                         return (
                             <Fragment key={item._id ?? item.title} >
-                                <li className={`text-sm max-sm:py-3 flex justify-between items-center cursor-pointer p-3 max-sm:px-4 gap-x-2 w-full rounded-md max-md:min-h-11 max-md:shadow-none ${item.spacing ? 'mt-9' : 'mt-2'} ${item.endMargin && 'mb-10'} ${item.btn ? 'text-[#b51026] hover:scale-102 duration-200 bg-white hover:font-extrabold' : 'text-gray-300 hover:bg-[#b13f4e]'} ${openMenu[item._id] && 'bg-[#b13f4e]'}`} onClick={() => {
+                                <li className={`text-sm max-sm:py-3 flex justify-between items-center cursor-pointer p-3 max-sm:px-4 gap-x-2 w-full rounded-xl max-md:min-h-11 max-md:shadow-none ${item.spacing ? 'mt-9' : 'mt-2'} ${item.endMargin && 'mb-10'} ${item.btn ? 'text-[#b51026] hover:scale-102 duration-200 bg-white font-medium shadow-[0_10px_20px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_14px_24px_-10px_rgba(0,0,0,0.6)]' : 'text-white/80 hover:bg-white/12 hover:text-white'} ${openMenu[item._id] && 'bg-white/15 text-white'}`} onClick={() => {
                                             setOpen(true);
                                             if (item.subMenu) toggle(item._id);
                                             if (item.api) {
@@ -174,6 +175,10 @@ const MenuBar = ({
                                                 onCloseMobile?.();
                                             }
                                             if (item.title === 'New Collection') setNewCollection(true);
+                                            if (item.title === 'Setting') {
+                                                openSettings?.();
+                                                onCloseMobile?.();
+                                            }
                                             if (item.title === 'Profile') {
                                                 openProfile();
                                                 onCloseMobile?.();
@@ -206,7 +211,7 @@ const MenuBar = ({
                                 {item.subMenu && openMenu[item._id] && (
                                     <ul className="relative -left-4 ml-8 max-sm:w-90 w-57 mt-2 space-y-2 text-sm text-gray-200 max-md:left-0 max-md:ml-7 max-md:w-full max-md:list-none max-md:p-0">
                                         {(item.subMenuItems ?? []).map((sub) => (
-                                            <li className={`group relative -left-7 list-none px-2 py-2 rounded-md bg-[#b61c31] flex items-center justify-between w-full h-9 max-md:left-0 max-md:h-11 ${active === sub._id ? 'bg-[#d74a5d]' : 'hover:bg-[#bb2a3e]'}`} key={sub._id}
+                                            <li className={`group relative -left-7 list-none px-2 py-2 rounded-lg flex items-center justify-between w-full h-9 transition-colors max-md:left-0 max-md:h-11 ${active === sub._id ? 'bg-white/20' : 'bg-black/15 hover:bg-white/10'}`} key={sub._id}
                                             onClick={() =>  { 
                                             if (item.title === 'Notes') {
                                                 openTabHandler(sub._id);
@@ -221,7 +226,7 @@ const MenuBar = ({
                                                 {rename === sub._id ? (
                                                     <Rename item={sub} menu={item} RenameInputRef={RenameInputRef} updateField={updateField} updateNote={updateNote} setRename={setRename} updateCollection={updateCollection} />
                                                 ) : (
-                                                    <div className="w-[80%] overflow-hidden whitespace-nowrap text-gray-200">{sub.title}</div>
+                                                    <div className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis text-white/90">{sub.title}</div>
                                                 )}
 
                                                 <div
@@ -232,7 +237,7 @@ const MenuBar = ({
                                                         type="button"
                                                         aria-label={`More options for ${sub.title}`}
                                                         aria-expanded={dropDown === sub._id}
-                                                        className={`flex  h-8 w-8 shrink-0 items-center cursor-pointer justify-center rounded-full border-0 bg-[#bb2a3e] text-white  ${active === sub._id ? 'visible bg-[#d74a5d] hover:bg-[#bb2a3e]' : 'invisible group-hover:visible hover:bg-[#d56473]'}`}
+                                                        className={`flex  h-8 w-8 shrink-0 items-center cursor-pointer justify-center rounded-full border-0 text-white transition-colors ${active === sub._id ? 'visible bg-white/20 hover:bg-white/30' : 'invisible group-hover:visible bg-white/10 hover:bg-white/25'}`}
                                                         onClick={(event) => {
                                                             event.stopPropagation();
                                                             setDropDown((current) => current === sub._id ? null : sub._id);

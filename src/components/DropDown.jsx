@@ -39,10 +39,10 @@ const DropDown = ({
 
 
     return view === 'actions' ? (
-            <div className="absolute right-0 top-full min-w-max px-2 py-2 text-md rounded-md bg-white border flex flex-col gap-1 border-[#b51026] z-50 shadow-lg">
-                <button type="button" className="flex items-center border-0 bg-transparent text-gray-700 p-2 rounded-lg hover:bg-[#f2e4e6]" onClick={(event) => {
+            <div className="absolute right-0 top-full min-w-max px-2 py-2 text-md rounded-xl bg-white border flex flex-col gap-1 border-[#eadbdd] z-50 shadow-[0_20px_40px_-16px_rgba(58,21,25,0.5)]">
+                <button type="button" className="flex items-center border-0 bg-transparent text-gray-700 p-2 rounded-lg hover:bg-[#f9e8ea]" onClick={(event) => {
                     event.stopPropagation();
-                    setRename(itemId);
+                    setRename(subItem._id);
                     if (closeDropDown) closeDropDown();
                 }}>
                     <Edit2Icon className='w-4 h-4 mr-3 ml-1' />
@@ -51,21 +51,21 @@ const DropDown = ({
                 <button type="button" onClick={(event) => {
                     event.stopPropagation();
                     openPicker();
-                }} className="flex items-center border-0 bg-transparent text-left text-gray-700 p-2 rounded-lg hover:bg-[#f2e4e6]">
+                }} className="flex items-center border-0 bg-transparent text-left text-gray-700 p-2 rounded-lg hover:bg-[#f9e8ea]">
                     {item.title === 'Notes' ? <FoldersIcon className='w-4 h-4 mr-3 ml-1'/> : <NotepadText className='w-4 h-4 mr-3 ml-1'/>}
                     {item.title === 'Notes' ? 'Add to collection' : 'Add new note'}
             
                 </button>
-                <div className="text-red-400 p-2 rounded-lg hover:bg-[#f2e4e6] cursor-pointer"
+                <div className="text-red-600 p-2 rounded-lg hover:bg-[#f9e8ea] cursor-pointer"
                 onClick={async (e) =>{
                     e.stopPropagation();
                     if (isDeleting) return;
                     if (item.title === 'Notes') {
-                        const deleted = await deleteNote(itemId);
+                        const deleted = await deleteNote(subItem._id);
                         if (closeDropDown && deleted) closeDropDown();
                     }
                     if (item.title === 'Collections') {
-                        const deleted = await deleteCollection(itemId);
+                        const deleted = await deleteCollection(subItem._id);
                         if (closeDropDown && deleted) closeDropDown();
                     }
                 }}

@@ -75,7 +75,7 @@ const Picker = ({items, emptyMessage, anchorRef, pickerRef, isAdding, addToColle
                 left: position?.left ?? 0,
                 visibility: position ? 'visible' : 'hidden',
             }}
-            className="z-60 w-56 max-w-[calc(100vw-2rem)] overflow-hidden rounded-md border border-[#b51026] bg-white text-gray-800 shadow-xl"
+            className="z-60 w-56 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-[#eadbdd] bg-white text-[#3a1519] shadow-[0_20px_40px_-16px_rgba(58,21,25,0.5)]"
         >
             {items.length === 0 ? (
                 <p className="m-0 px-3 py-3 text-sm text-gray-500">{emptyMessage}</p>
@@ -87,7 +87,7 @@ const Picker = ({items, emptyMessage, anchorRef, pickerRef, isAdding, addToColle
                                 type="button"
                                 disabled={isAdding}
                                 aria-busy={addingItemId === sub._id}
-                                className="flex min-h-10 w-full items-center rounded-sm border-0 bg-transparent px-3 py-2 text-left text-sm leading-5 wrap-break hover:bg-[#f9e8ea] disabled:cursor-wait disabled:opacity-70"
+                                className="flex min-h-10 w-full items-center rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm leading-5 wrap-break hover:bg-[#f9e8ea] disabled:cursor-wait disabled:opacity-70"
                                 onClick={(event) => {
                                     event.stopPropagation();
                                     addItem(sub);
