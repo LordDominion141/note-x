@@ -4,5 +4,5 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  return <main className="overflow-x-clip">{children}</main>;
+  return <main className="overflow-x-clip m-0">{children}</main>;
 }

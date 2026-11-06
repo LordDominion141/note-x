@@ -121,8 +121,8 @@ const LandingPage = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
-        <div className={`${rubik.className} min-h-screen w-full bg-linear-to-br from-[#d74a5d] via-[#b51026] to-[#4e0611] p-3 text-[#3a1519] sm:p-6 lg:p-10`}>
-            <div className="mx-auto max-w-7xl overflow-hidden rounded-4xl bg-[#faf9f6] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.7)]">
+        <div className={`${rubik.className} min-h-screen w-full bg-linear-to-br from-[#d74a5d] via-[#b51026] to-[#4e0611] m-0 p-3 text-[#3a1519] sm:p-6 lg:p-10`}>
+            <div className="mx-auto relative -left-3 max-w-7xl overflow-hidden rounded-4xl bg-[#faf9f6] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.7)] ">
 
                 {/* NAVBAR */}
                 <nav className="sticky top-0 z-40 border-b border-[#3a1519]/30 bg-[#faf9f6]/90 backdrop-blur">
