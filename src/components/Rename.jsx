@@ -9,7 +9,7 @@ const Rename = ({item, menu, RenameInputRef, updateField, updateNote, setRename,
     return ( 
         <div className="w-[80%] overflow-hidden whitespace-nowrap" onClick={(event) => event.stopPropagation()}>
 
-            <input ref={RenameInputRef} value={updatedCollection.title} aria-label={`Rename ${item.title}`} className="h-full w-full border border-white m-0 p-0 bg-transparent text-white focus:outline-none" onChange={(e) => {
+            <input ref={RenameInputRef} value={updatedCollection.title} aria-label={`Rename ${item.title}`} className="h-full w-full border border-white/60 rounded-md m-0 px-2 bg-white/10 text-white focus:outline-none" onChange={(e) => {
                     const title = e.target.value;
                     setUpdatedCollection({title});
                     if (menu.title === 'Notes') updateField(item._id, 'title', title);
