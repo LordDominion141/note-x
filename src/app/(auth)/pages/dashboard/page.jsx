@@ -586,7 +586,7 @@ const Dashboard = () => {
         const [rename, setRename] = useState({});
 
     return (
-    <main className="flex flex-row h-screen overflow-hidden max-md:h-dvh max-md:w-full max-md:max-w-none max-md:mx-0">
+    <main className="flex flex-row h-screen overflow-hidden max-md:h-dvh max-md:w-full max-md:max-w-none max-md:mx-0 overflow-x-clip">
         {mobileMenuOpen && (
             <button
                 type="button"

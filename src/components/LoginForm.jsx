@@ -43,7 +43,7 @@ const LoginForm = () => {
 
 
     return ( <main>
-        <div className="flex w-full items-center justify-center bg-[url('/images/image3.jpg')] bg-cover bg-center py-10 max-sm:py-6">
+        <div className="flex w-full items-center justify-center bg-[url('/images/image3.jpg')] bg-cover bg-center py-10 max-sm:py-6 overflow-x-clip">
             <div className="mx-10 my-10 flex w-full max-w-300 flex-row overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg shadow-gray-500 max-sm:w-full max-sm:min-h-150 max-sm:flex-col">
 
                 <div className="flex min-w-0 flex-1 max-sm:h-70 max-sm:flex-none">
