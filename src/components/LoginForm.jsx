@@ -73,6 +73,7 @@ const LoginForm = () => {
                             {error && <p role="alert" className="m-0 text-sm text-red-700">{error}</p>}
                             <button className="mt-5 rounded-md border border-red-400 bg-[#b51026] px-2 py-2 text-[15px] text-white shadow-none transition-colors hover:bg-[#840f1e]" type="submit">Sign In</button>
                         <p className="m-0 mb-3 text-center text-[15px] tracking-normal text-gray-700">Don&apos;t have an account yet? <Link className="text-[#b51026] no-underline" href='/pages/signup'>Sign Up</Link></p>
+                        <p className="m-0 mb-3 text-center text-[15px] tracking-normal"><Link className="text-[#b51026] no-underline" href='/'>Home</Link></p>
                     </form>
                 </div>
             </div>
