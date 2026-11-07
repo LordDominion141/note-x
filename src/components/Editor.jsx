@@ -76,7 +76,7 @@ const Editor = ({
                 </button>
                 )}
 
-                <div className="h-full overflow-y-auto overflow-x-clip [&::-webkit-scrollbar]:hidden">
+                <div className="h-full overflow-y-auto overflow-x-clip [&::-webkit-scrollbar]:hidden pr-15">
                     <input value={draft.title} ref={titleInputRef} placeholder="Title" onChange={(e) => {
                         updateField(activeId, 'title', e.target.value)
                     }} style={{ ...fieldStyle, fontSize: settings.fontSize * 1.75 }} className="block w-full min-w-0 border-none outline-0 pt-16 h-20 px-10 font-medium tracking-tight placeholder:text-current placeholder:opacity-40 max-md:px-5 max-md:pt-14 max-sm:w-full"
@@ -92,7 +92,7 @@ const Editor = ({
                     <textarea  ref={textInputRef} value={draft.body} onChange={(e) => {
                         updateField(activeId, 'body', e.target.value);
                     }
-                        } placeholder= "Start writing" style={{ ...fieldStyle, fontSize: settings.fontSize, lineHeight: settings.lineHeight }} className="block w-full min-h-[50vh] border-none outline-0 resize-none overflow-hidden placeholder:text-current placeholder:opacity-40 p-10 py-3 max-md:px-5"
+                        } placeholder= "Start writing" style={{ ...fieldStyle, fontSize: settings.fontSize, lineHeight: settings.lineHeight }} className="block w-full min-h-[50vh] border-0 outline-0 resize-none overflow-hidden placeholder:text-current placeholder:opacity-40 p-10 py-3 max-md:px-5"
                         onKeyDown={(event) => {
                             if (event.key === 'Backspace') {
                                 if (event.target.selectionStart === 0) {

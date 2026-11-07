@@ -6,7 +6,7 @@ const TabBar = ({ notes, openTab, drafts, active, setActive, closeTabHandler, ne
     const previousId = openTab[openTab.indexOf(active) - 1];
 
     return (
-        <div className="flex items-end overflow-x-auto scrollbar-none border border-b-0 border-white/15 px-3 shrink-0 max-md:h-12 max-md:items-stretch max-md:border-b max-md:border-[#eadbdd] max-md:bg-[#b15561] max-md:px-2">
+        <div className="flex items-end overflow-x-auto scrollbar-none border border-b-0 border-white/15 px-3 shrink-0 max-md:h-12 max-md:items-stretch max-md:bg-[#b15561] max-md:px-2">
             {openTab.map((id) => {
                 const tab = drafts[id] ?? notes.find((n) => n._id === id);
                 if (!tab) return null; // note was deleted
@@ -21,9 +21,9 @@ const TabBar = ({ notes, openTab, drafts, active, setActive, closeTabHandler, ne
                         <div className={`max-sm:hidden w-1.5 h-1.5 bg-[#b15561] rounded-br-2xl shadow-[4px_4px_0_4px_#faf9f6f8] border-0 m-0 ${isActive ? 'block' : 'hidden'}`}></div>
 
                         <button
-                            className={`flex items-end border-transparent shrink-0 w-40 h-7 px-2 mt-4 overflow-hidden text-sm max-md:mt-0 max-md:h-12 max-md:min-h-11 max-md:w-36 max-md:items-center bg-tab-bg transition-colors duration-200 ${
+                            className={`flex items-end border-0 shrink-0 w-40 h-7 px-2 mt-4 overflow-hidden text-sm max-md:mt-0 max-md:h-12 max-md:min-h-11 max-md:w-36 max-md:items-center bg-tab-bg transition-colors duration-200 ${
                                 isActive
-                                    ? 'bg-tab-bg max-sm:bg-white border-0 hover:bg-stone-100 rounded-t-xl max-sm:rounded-sm font-medium text-[#b51026]'
+                                    ? 'bg-tab-bg border-0 hover:bg-stone-100 rounded-t-xl max-sm:rounded-t-xl font-medium text-[#b51026]'
                                     : 'hover:bg-white/10 rounded-t-xl text-white font-medium bg-transparent'
                                     } ${previousId === id && 'border-none'} max-md:my-1`}>
                             <div className="ml-1 w-25 overflow-hidden whitespace-nowrap text-[12px] bg-transparent">{tab.title}</div>
