@@ -353,7 +353,7 @@ const MenuBar = ({
                                 {item.subMenu && openMenu[item._id] && (
                                     <ul className="relative -left-4 ml-8 max-sm:w-90 w-57 mt-2 space-y-2 text-sm text-gray-200 max-md:left-0 max-md:ml-7 max-md:w-full max-md:list-none max-md:p-0">
                                         {(item.subMenuItems ?? []).map((sub) => (
-                                            <li className={`group relative -left-7 list-none px-2 py-2 rounded-lg flex items-center justify-between w-full h-9 transition-colors max-md:left-0 max-md:h-11 ${active === sub._id ? 'bg-white/20' : 'bg-black/15 hover:bg-white/10'}`} key={sub._id}
+                                            <li className={`group relative -left-7 list-none px-2 py-2 rounded-lg flex items-center justify-between w-full max-sm:w-[60%] h-9 transition-colors max-md:left-0 max-md:h-11 ${active === sub._id ? 'bg-white/20' : 'bg-black/15 hover:bg-white/10'}`} key={sub._id}
                                             onClick={() =>  { 
                                             if (item.title === 'Notes') {
                                                 openTabHandler(sub._id);
@@ -379,7 +379,7 @@ const MenuBar = ({
                                                         type="button"
                                                         aria-label={`More options for ${sub.title}`}
                                                         aria-expanded={dropDown === sub._id}
-                                                        className={`flex  h-8 w-8 shrink-0 items-center cursor-pointer justify-center rounded-full border-0 text-white transition-colors ${active === sub._id ? 'visible bg-white/20 hover:bg-white/30' : 'invisible group-hover:visible bg-white/10 hover:bg-white/25'}`}
+                                                        className={`flex  h-8 w-8 shrink-0 items-center cursor-pointer justify-center rounded-full border-0 text-white transition-colors ${active === sub._id ? 'visible bg-white/20 hover:bg-white/30' : 'invisible group-hover:visible max-sm:visible bg-white/10 hover:bg-white/25'}`}
                                                         onClick={(event) => {
                                                             event.stopPropagation();
                                                             setDropDown((current) => current === sub._id ? null : sub._id);
