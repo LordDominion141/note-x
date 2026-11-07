@@ -43,7 +43,7 @@ const TabBar = ({ notes, openTab, drafts, active, setActive, closeTabHandler, ne
                 );
             })}
 
-            <button type="button" aria-label="Create note" className="bg-transparent p-1 px-1.5 rounded-full transition-colors mt-4 ml-4 mb-1 text-center flex justify-center text-md text-tab-bg hover:bg-white/20 shrink-0 max-md:hidden border-0" onClick={() => newTabHandler()}>
+            <button type="button" aria-label="Create note" className="bg-transparent p-1 px-1.5 rounded-full transition-colors mt-4 ml-4 mb-1 text-center flex justify-center text-md text-white hover:bg-white/20 shrink-0 max-md:hidden border-0" onClick={() => newTabHandler()}>
                 <Plus className="w-4 h-4" />
             </button>
         </div>
