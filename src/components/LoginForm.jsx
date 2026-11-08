@@ -42,17 +42,17 @@ const LoginForm = () => {
     }
 
 
-    return ( <main>
-        <div className="flex w-full items-center justify-center bg-[url('/images/image3.jpg')] bg-cover bg-center py-10 max-sm:py-6 overflow-x-clip">
-            <div className="mx-10 my-10 flex w-full max-w-300 flex-row overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg shadow-gray-500 max-sm:w-full max-sm:min-h-150 max-sm:flex-col">
+    return ( <main className="flex min-h-dvh flex-1">
+        <div className="flex w-full flex-1 items-center justify-center overflow-x-clip bg-[url('/images/image3.jpg')] bg-cover bg-center py-10 max-sm:min-h-dvh max-sm:py-0">
+            <div className="mx-10 my-10 flex w-full max-w-300 flex-row overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg shadow-gray-500 max-sm:mx-0 max-sm:my-0 max-sm:min-h-dvh max-sm:flex-col max-sm:rounded-none max-sm:border-0 max-sm:shadow-none">
 
-                <div className="flex min-w-0 flex-1 max-sm:h-70 max-sm:flex-none">
+                <div className="flex min-w-0 flex-1 max-sm:hidden">
                     <Image src='/images/signup.png' loading="eager" alt='Image' width={400} height={400} className="block h-full w-full object-cover"/>
                 </div>
 
-                <div className="flex flex-1 items-center justify-center">
+                <div className="flex min-h-full flex-1 items-center justify-center">
 
-                    <form onSubmit={handleSubmit} className="flex w-87.5 flex-col justify-center gap-7 px-10 py-16 max-sm:gap-5 max-sm:px-8">
+                    <form onSubmit={handleSubmit} className="flex w-87.5 flex-col justify-center gap-7 px-10 py-16 max-sm:w-full max-sm:max-w-[22rem] max-sm:gap-5 max-sm:px-6 max-sm:py-10">
                         <h2 className="mb-0 text-[28px] text-gray-800">WELCOME BACK</h2>
                         <p className="m-0 mb-3 text-[17px] tracking-widest text-gray-700">Sign in to your Note-X account.</p>
                             
